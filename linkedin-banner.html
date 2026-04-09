@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1584">
+<title>LinkedIn Banner</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  width: 1584px;
+  height: 396px;
+  background: #0f172a;
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+  position: relative;
+}
+/* Subtle gradient accent */
+body::before {
+  content: '';
+  position: absolute;
+  top: -100%;
+  left: -50%;
+  width: 200%;
+  height: 300%;
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(129,140,248,0.06), transparent 50%),
+    radial-gradient(ellipse at 80% 30%, rgba(99,102,241,0.04), transparent 40%);
+}
+.container {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  padding: 0 80px;
+}
+.left {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.name {
+  font-size: 52px;
+  font-weight: 800;
+  color: #f1f5f9;
+  letter-spacing: -2px;
+}
+.subtitle {
+  font-size: 18px;
+  color: #94a3b8;
+  font-weight: 400;
+}
+.right {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-end;
+}
+.project-pill {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 500;
+  color: #64748b;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 8px;
+  padding: 8px 16px;
+  letter-spacing: 0.3px;
+}
+.project-pill.accent {
+  color: #818cf8;
+  border-color: rgba(129, 140, 248, 0.15);
+  background: rgba(129, 140, 248, 0.05);
+}
+/* Thin accent line at bottom */
+.accent-line {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #818cf8 30%, #6366f1 70%, transparent);
+  opacity: 0.4;
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="left">
+    <div class="name">Shaan Agara</div>
+    <div class="subtitle">Building AI tools for product leaders</div>
+  </div>
+  <div class="right">
+    <span class="project-pill accent">PM-OS</span>
+    <span class="project-pill">Agent Watch</span>
+    <span class="project-pill">Health Agents</span>
+    <span class="project-pill">The Cabinet</span>
+    <span class="project-pill">AutoAgent</span>
+    <span class="project-pill">Medfold</span>
+  </div>
+</div>
+<div class="accent-line"></div>
+</body>
+</html>
