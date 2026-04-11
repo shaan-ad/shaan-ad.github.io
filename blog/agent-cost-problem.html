@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Agent Cost Problem Nobody's Talking About | Shaan Agara</title>
+<meta name="description" content="AI agents are powerful but expensive in unpredictable ways. Why observability for AI agents is the next critical infrastructure layer, and how Agent Watch solves it.">
+<meta property="og:title" content="The Agent Cost Problem Nobody's Talking About | Shaan Agara">
+<meta property="og:description" content="AI agents are powerful but expensive in unpredictable ways. Why observability for AI agents is the next critical infrastructure layer, and how Agent Watch solves it.">
+<meta property="og:url" content="https://shaanagara.com/blog/agent-cost-problem.html">
+<meta property="og:type" content="article">
+<meta property="og:image" content="https://shaanagara.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Agent Cost Problem Nobody's Talking About | Shaan Agara">
+<meta name="twitter:description" content="AI agents are powerful but expensive in unpredictable ways. Why observability for AI agents is the next critical infrastructure layer, and how Agent Watch solves it.">
+<meta name="twitter:image" content="https://shaanagara.com/og-image.png">
+<link rel="canonical" href="https://shaanagara.com/blog/agent-cost-problem.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ctext x='4' y='26' font-size='28'%3E%E2%9A%A1%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="../styles.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "The Agent Cost Problem Nobody's Talking About",
+  "author": { "@type": "Person", "name": "Shaan Agara" },
+  "datePublished": "2026-04-09",
+  "description": "AI agents are powerful but expensive in unpredictable ways. Why observability for AI agents is the next critical infrastructure layer, and how Agent Watch solves it.",
+  "url": "https://shaanagara.com/blog/agent-cost-problem.html"
+}
+</script>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="site-nav bg-warm">
+  <a href="../" class="site-nav-brand">Shaan Agara</a>
+  <div class="site-nav-links">
+    <a href="./" class="site-nav-link">Blog</a>
+  </div>
+</nav>
+
+<article>
+  <header class="article-header">
+    <div class="article-meta">APRIL 9, 2026 · 9 MIN READ</div>
+    <h1 class="article-title">The Agent Cost Problem Nobody's Talking About</h1>
+    <p class="article-subtitle">AI agents are getting powerful. They are also getting expensive in ways that are nearly impossible to predict without the right tools.</p>
+    <div class="article-tags">
+      <span class="pill">AI</span>
+      <span class="pill">Agents</span>
+      <span class="pill">Observability</span>
+    </div>
+  </header>
+
+  <hr class="article-divider">
+
+  <div class="article-body">
+
+    <h2>The Hidden Cost Curve</h2>
+
+    <p>A single API call to a frontier model costs somewhere between one and ten cents. That is cheap. It feels cheap. When you are building a prototype, sending individual prompts to Claude or GPT-4 and getting responses back, the cost is barely worth thinking about. You could run a thousand calls and stay under fifty dollars. At that scale, LLM pricing is a rounding error.</p>
+
+    <p>But agents do not make single API calls.</p>
+
+    <p>An agent loops. It reasons about its environment, decides which tool to call, interprets the result, adjusts its approach, and calls another tool. A simple "research this topic" task might make fifteen to forty API calls before it produces a final answer. A multi-agent workflow where several specialized agents coordinate on a complex task can generate hundreds of calls. Each call consumes input tokens (the full context window, which grows with every step) and output tokens (the agent's reasoning and responses). The cost is not linear. It compounds.</p>
+
+    <p>I discovered this the hard way. I was running a research agent across multiple projects, letting it handle literature reviews, competitive analysis, and technical deep dives. The individual results were excellent. The monthly bill was not. When I checked the invoice, I was looking at numbers that did not match my mental model of "a few cents per call." The agent had been making dozens of calls per task, each one carrying an increasingly large context window, and the costs had multiplied in ways I never anticipated.</p>
+
+    <div class="visual-comparison">
+      <div class="visual-comparison-card">
+        <div class="visual-comparison-label">SINGLE API CALL</div>
+        <div class="visual-comparison-title">Predictable</div>
+        <div class="visual-comparison-text">
+          <ul>
+            <li>One request, one response</li>
+            <li>Cost: predictable</li>
+            <li>$0.01 to $0.10 per call</li>
+            <li>Linear scaling</li>
+          </ul>
+        </div>
+      </div>
+      <div class="visual-comparison-card">
+        <div class="visual-comparison-label">AGENT WORKFLOW</div>
+        <div class="visual-comparison-title">Unpredictable</div>
+        <div class="visual-comparison-text">
+          <ul>
+            <li>15-40+ chained calls</li>
+            <li>Cost: unpredictable</li>
+            <li>$0.50 to $8.00+ per task</li>
+            <li>Exponential variance</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <p>The cost of a single task is not the real issue. The real issue is that you have no idea what a task will cost until it is done. Two identical prompts sent to the same agent can produce wildly different cost profiles depending on the reasoning path the model takes, the number of tool calls it decides to make, and whether it encounters dead ends that require backtracking. This variance makes budgeting nearly impossible and makes optimization a guessing game.</p>
+
+    <p>Most teams building with agents today are flying blind on cost. They see the aggregate monthly bill. They know it is going up. They have no idea which agents, which tasks, or which specific functions are driving the spend. It is like running a web application without any performance monitoring: you know something is slow, but you have no idea what or why.</p>
+
+    <h2>Why Existing Tools Don't Help</h2>
+
+    <p>The obvious response is "just use the cloud dashboard." Every major LLM provider gives you a usage dashboard. OpenAI, Anthropic, Google: they all show you aggregate spend over time, broken down by model and sometimes by API key. This information is useful for one thing: knowing how much money left your account last month. It is useless for debugging why a specific agent run cost eight dollars when you expected fifty cents.</p>
+
+    <p>Cloud dashboards operate at the wrong level of abstraction. They show you organization-level spend. They do not show you run-level spend. They cannot tell you that your research agent's summarization step consumed 40% of the total cost because it was receiving the full accumulated context from the previous three tool calls. They cannot tell you that your cheapest runs were actually the ones that produced the best results because the agent found the right path quickly. They are aggregate tools in a world that needs granular answers.</p>
+
+    <p>Then there are the LLM observability platforms. LangSmith, Helicone, Langfuse, and others have emerged to fill the monitoring gap. They offer tracing, latency analysis, prompt versioning, and cost tracking. These tools are genuinely useful, and for large teams running agents in production, they are becoming essential. But they come with tradeoffs that make them wrong for a significant portion of builders.</p>
+
+    <p>First, they are enterprise tools with enterprise complexity. Setting up LangSmith means creating an account, configuring API keys, integrating their SDK into your codebase, and routing your traces through their servers. Helicone requires you to proxy your API calls through their infrastructure. These are reasonable architectures for production systems, but they are significant overhead when you are a solo developer or a small team trying to understand what your agent is doing during local development.</p>
+
+    <p>Second, your data leaves your machine. Every trace, every prompt, every response goes to a third-party server. For personal projects or early-stage experimentation, this may not matter. For enterprise use cases with sensitive data, for healthcare applications subject to compliance requirements, or for anyone who simply prefers to keep their data local, this is a non-starter.</p>
+
+    <p>Third, many of these tools charge for observability itself. You are already paying for the LLM calls. Now you are also paying for the privilege of understanding what those calls cost. There is something fundamentally backwards about that model.</p>
+
+    <p>What is missing is simple. A local-first way to see what each agent run costs, at the function level, with zero configuration, no external services, and no additional monthly bill. Something you can add in three lines of code and start getting answers immediately.</p>
+
+    <h2>Agent Watch: Two Decorators, Zero Config</h2>
+
+    <p>This is why I built Agent Watch. I needed something that did not exist: lightweight, local-first cost observability for AI agents. No dashboards to configure. No API keys to manage. No data leaving my machine. Just clear visibility into what my agents were costing me and where the money was going.</p>
+
+    <p>The entire API is two Python decorators.</p>
+
+    <div class="visual-code">
+      <div class="visual-code-label">Python</div>
+      <pre>from agent_watch import track_usage, monitor_agent
+
+@monitor_agent
+def research_agent(topic):
+    result = call_llm(f"Research {topic}")
+    sources = call_llm(f"Find sources for {result}")
+    summary = call_llm(f"Summarize {sources}")
+    return summary
+
+@track_usage
+def call_llm(prompt):
+    return client.messages.create(
+        model="claude-sonnet-4-20250514",
+        messages=[{"role": "user", "content": prompt}]
+    )</pre>
+    </div>
+
+    <p><code>@monitor_agent</code> wraps a top-level agent function. It tracks every LLM call that happens inside it, records token usage, calculates cost, and logs the complete run as a single entry. <code>@track_usage</code> wraps individual LLM-calling functions. It captures the per-call token counts and cost, and associates each call with the parent agent run.</p>
+
+    <p>That is it. Two decorators. No configuration file. No environment variables beyond what you already have for your LLM provider. No server to run. No account to create.</p>
+
+    <p>All data is logged locally as JSONL files. Each line is a structured record of one agent run, including the total cost, the per-function breakdown, token counts, timestamps, and duration. The data never leaves your machine. You own it completely. You can parse it with any tool you want, from simple Python scripts to jq to pandas. Or you can use the built-in CLI.</p>
+
+    <div class="visual-code">
+      <div class="visual-code-label">Terminal</div>
+      <pre>$ agent-watch report
+
+Agent: research_agent
+Total runs: 47
+Avg cost per run: $1.23
+Max cost: $4.87
+Min cost: $0.34
+Total spend: $57.81
+
+Top cost drivers:
+  call_llm (summarize): $23.40 (40.4%)
+  call_llm (sources):   $19.12 (33.1%)
+  call_llm (research):  $15.29 (26.4%)</pre>
+    </div>
+
+    <p>The CLI gives you an instant overview: how many times an agent ran, the average and extreme costs, total spend, and a breakdown of which functions consumed the most money. No login required. No waiting for a dashboard to load. Run a command, get the answers.</p>
+
+    <p>The design philosophy is intentional. Agent Watch is not trying to be a platform. It is not trying to be a business. It is a tool that solves one problem well: telling you what your agents cost and where the money goes. It is open source, it is free, and it does exactly what it says. Two decorators, one CLI, zero config.</p>
+
+    <h2>What Observability Reveals</h2>
+
+    <p>Once you can see what your agents are actually doing, patterns emerge that are invisible without instrumentation. I have been running Agent Watch across my own projects for several months now, and three discoveries keep repeating.</p>
+
+    <div class="visual-metric">
+      <div class="visual-metric-item">
+        <div class="visual-metric-number">14x</div>
+        <div class="visual-metric-label">Cost variance between cheapest and most expensive run</div>
+      </div>
+      <div class="visual-metric-item">
+        <div class="visual-metric-number">40%</div>
+        <div class="visual-metric-label">Of total cost from a single function</div>
+      </div>
+      <div class="visual-metric-item">
+        <div class="visual-metric-number">3</div>
+        <div class="visual-metric-label">Lines of code to add full observability</div>
+      </div>
+    </div>
+
+    <p><strong>Discovery one: most cost is concentrated in one or two functions.</strong> Across every agent I have instrumented, the cost distribution follows a power law. One function, sometimes two, consumes 40-60% of the total spend. In my research agent, it was the summarization step. The summarizer received the full accumulated context from the research and source-finding steps, which meant it was processing the largest input token count by far. Optimizing just that one function (by trimming the context before summarization) cut total agent cost by over 50%. Without per-function cost attribution, I would have been optimizing blindly, probably targeting the wrong function entirely.</p>
+
+    <p><strong>Discovery two: the most expensive runs are the ones that loop.</strong> Agents sometimes get stuck. They call a tool, interpret the result incorrectly, call it again with slightly different parameters, get another unsatisfying result, and repeat. These retry loops are silent without observability. The agent eventually produces an output, so from the outside everything looks normal. But internally, it made eight calls where three would have sufficed. I have seen individual runs cost fourteen times more than the average because the agent entered a reasoning loop on a single step. Agent Watch flags these outliers immediately. Without it, they hide in the aggregate and quietly drain your budget.</p>
+
+    <p><strong>Discovery three: cost and quality are not correlated.</strong> This was the most surprising finding. I expected that more expensive runs (more reasoning, more tool calls, more tokens) would produce better results. The opposite is often true. The cheapest runs frequently produce the best output because the agent found the right path quickly, without backtracking or dead ends. The expensive runs are expensive precisely because the agent struggled. It went down wrong paths, recovered, tried again, and eventually converged on an answer that was no better than what the fast run produced in a third of the time and cost.</p>
+
+    <p>This insight has practical implications. If you can identify the conditions that lead to cheap, high-quality runs versus expensive, mediocre ones, you can restructure your prompts, your tool definitions, and your agent architectures to favor the efficient paths. But you can only do this if you have the data. Without per-run cost observability, every run looks the same from the outside: a prompt goes in, a result comes out. The internal economics are invisible.</p>
+
+    <p>I have started using cost as a proxy signal for agent health. A sudden spike in average cost per run usually means something changed: the input data got more complex, a tool started returning unexpected formats, or a prompt update inadvertently triggered more reasoning loops. Cost monitoring catches these regressions faster than output quality monitoring, because cost changes are immediate and quantifiable while quality changes are gradual and subjective.</p>
+
+    <h2>The Infrastructure Layer We Need</h2>
+
+    <p>Agent Watch solves the problem for individual developers and small teams. But the broader issue extends beyond any single tool. The industry is deploying AI agents at an accelerating rate without treating cost observability as a first-class concern. This needs to change.</p>
+
+    <p>Think about the evolution of web application infrastructure. In the early days of web development, applications shipped without monitoring. When something broke, you checked the server logs manually. As applications grew more complex, monitoring became non-negotiable. APM tools like New Relic, Datadog, and Prometheus became standard infrastructure. Today, you would never deploy a production web application without monitoring, alerting, and observability. It would be considered negligent.</p>
+
+    <div class="visual-callout">
+      <p>You would never deploy a web application without monitoring. We should not deploy agents without cost observability.</p>
+    </div>
+
+    <p>We are at the "checking server logs manually" stage for AI agents. Most teams deploying agents in 2026 have no per-run cost attribution, no cost anomaly detection, no way to identify which specific agent behavior is driving their bill. They see the monthly total. They know it is growing. They have no actionable data to do anything about it beyond "use a cheaper model" or "make fewer calls," which are blunt instruments that sacrifice capability for cost savings.</p>
+
+    <p>The infrastructure layer we need goes beyond what Agent Watch provides today. We need cost budgets per agent, with automatic alerts when a run exceeds expected bounds. We need cost regression testing, so that a prompt change that doubles average run cost gets flagged before it reaches production. We need cost-aware routing, where agents can dynamically select models based on task complexity, using a frontier model for hard steps and a smaller model for routine ones. We need standardized cost reporting across providers, so that switching from one LLM to another does not require rebuilding your entire observability stack.</p>
+
+    <p>Some of this infrastructure will come from the LLM providers themselves. Some will come from the existing observability platforms as they mature. Some will come from the open-source community. But the core principle is clear: agent cost observability is not a nice-to-have. It is infrastructure. And the teams that treat it as infrastructure today will be the ones who can afford to run agents at scale tomorrow.</p>
+
+    <p>The math is straightforward. If your agent costs an average of $1.23 per run and you run it a hundred times a day, that is $123 per day, roughly $3,700 per month, for one agent. Scale to ten agents and you are at $37,000 per month. At that point, a 30% cost reduction through targeted optimization (the kind that requires per-function cost attribution) saves you over $11,000 per month. The observability pays for itself many times over, assuming it costs anything at all.</p>
+
+    <p>Agent Watch is open source and free. Adding it to an existing agent takes three lines of code. But beyond this specific tool, my argument is that the industry needs to adopt a mindset shift. Agent cost is not an afterthought to address when the bill gets too high. It is a core operational metric that should be tracked from day one, just like latency, error rate, and uptime.</p>
+
+    <p>The builders who instrument early will have the data to optimize. The ones who wait will face a cost curve they do not understand and cannot control. In a world where AI agents are becoming central to how software operates, cost observability is not optional. It is the foundation everything else is built on.</p>
+
+  </div>
+
+  <footer class="article-footer">
+    <div class="article-author">
+      <div class="article-author-name">Written by Shaan Agara</div>
+      <div class="article-author-bio">Director of Product at PointClickCare. Stanford AI. Building open-source AI tools for product leaders and decision-makers.</div>
+    </div>
+    <div class="article-back">
+      <a href="./">&larr; Back to all posts</a>
+    </div>
+    <div class="article-nav">
+      <a href="pm-new-stack-ai-os.html">&larr; Prev: The PM's New Stack</a>
+      <a href="your-product-roadmap-ai-agents.html">Next: Your Product Roadmap Doesn't Account for AI Agents &rarr;</a>
+    </div>
+  </footer>
+</article>
+
+<!-- FOOTER -->
+<footer class="footer bg-cream">
+  <div class="container">
+    <div class="section-label">Connect</div>
+    <div class="footer-links">
+      <a href="https://www.linkedin.com/in/shaan-agara/" class="footer-link" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        LinkedIn
+      </a>
+      <a href="https://github.com/shaan-ad" class="footer-link" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" fill="currentColor"/></svg>
+        GitHub
+      </a>
+    </div>
+    <p class="footer-quote">"You can't connect the dots looking forward; you can only connect them looking backwards. So you have to trust that the dots will somehow connect in your future."</p>
+    <p class="footer-quote-attr">Steve Jobs</p>
+    <p class="footer-copy">&copy; 2026 Shaan Agara</p>
+  </div>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
