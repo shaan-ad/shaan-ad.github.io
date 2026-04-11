@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The PM's New Stack: Why I Built an AI Operating System for Product Managers | Shaan Agara</title>
+<meta name="description" content="PM workflows are ripe for AI augmentation. The story behind PM-OS: 27 AI skills, a compounding knowledge system, and why it changes how product managers work.">
+<meta property="og:title" content="The PM's New Stack: Why I Built an AI Operating System for Product Managers | Shaan Agara">
+<meta property="og:description" content="PM workflows are ripe for AI augmentation. The story behind PM-OS: 27 AI skills, a compounding knowledge system, and why it changes how product managers work.">
+<meta property="og:url" content="https://shaanagara.com/blog/pm-new-stack-ai-os.html">
+<meta property="og:type" content="article">
+<meta property="og:image" content="https://shaanagara.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The PM's New Stack: Why I Built an AI Operating System for Product Managers | Shaan Agara">
+<meta name="twitter:description" content="PM workflows are ripe for AI augmentation. The story behind PM-OS: 27 AI skills, a compounding knowledge system, and why it changes how product managers work.">
+<meta name="twitter:image" content="https://shaanagara.com/og-image.png">
+<link rel="canonical" href="https://shaanagara.com/blog/pm-new-stack-ai-os.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ctext x='4' y='26' font-size='28'%3E%E2%9A%A1%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="../styles.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "The PM's New Stack: Why I Built an AI Operating System for Product Managers",
+  "author": { "@type": "Person", "name": "Shaan Agara" },
+  "datePublished": "2026-04-07",
+  "description": "PM workflows are ripe for AI augmentation. The story behind PM-OS: 27 AI skills, a compounding knowledge system, and why it changes how product managers work.",
+  "url": "https://shaanagara.com/blog/pm-new-stack-ai-os.html"
+}
+</script>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="site-nav bg-warm">
+  <a href="../" class="site-nav-brand">Shaan Agara</a>
+  <div class="site-nav-links">
+    <a href="./" class="site-nav-link">Blog</a>
+  </div>
+</nav>
+
+<article>
+  <header class="article-header">
+    <div class="article-meta">APRIL 7, 2026 · 10 MIN READ</div>
+    <h1 class="article-title">The PM's New Stack: Why I Built an AI Operating System for Product Managers</h1>
+    <p class="article-subtitle">PM workflows are ripe for AI augmentation. Here's the story behind PM-OS and why the knowledge system matters more than any single skill.</p>
+    <div class="article-tags">
+      <span class="pill">Product</span>
+      <span class="pill">AI</span>
+      <span class="pill">Tools</span>
+    </div>
+  </header>
+
+  <hr class="article-divider">
+
+  <div class="article-body">
+
+    <h2>The Tool Fragmentation Problem</h2>
+
+    <p>Every product manager I know has the same problem. They spend their mornings in Jira writing tickets, switch to Notion for strategy docs, jump into Linear for sprint tracking, open Figma for design reviews, build slides in Google Slides, respond in Slack, then update a spreadsheet that nobody else reads. Twelve or more tools running simultaneously, each holding a fragment of the picture, none of them aware the others exist.</p>
+
+    <p>The PM's job has quietly become information logistics. Moving context from one system to another. Translating a customer insight captured in a Slack thread into a Jira ticket, then referencing that ticket in a strategy doc, then pulling the strategy doc into a slide deck for the leadership review. Each translation loses fidelity. Each context switch costs time. The actual thinking, the part where you decide what to build and why, gets compressed into whatever minutes remain after the information transfer is done.</p>
+
+    <div class="visual-metric">
+      <div class="visual-metric-item">
+        <div class="visual-metric-number">12+</div>
+        <div class="visual-metric-label">Tools in the average PM's stack</div>
+      </div>
+      <div class="visual-metric-item">
+        <div class="visual-metric-number">0</div>
+        <div class="visual-metric-label">That share context with each other</div>
+      </div>
+      <div class="visual-metric-item">
+        <div class="visual-metric-number">40%</div>
+        <div class="visual-metric-label">Time spent on information transfer</div>
+      </div>
+    </div>
+
+    <p>I tracked my own workflow for two weeks. The results were brutal. Roughly 40% of my working hours went to moving information between systems. Not analyzing it. Not making decisions based on it. Just copying, reformatting, and relocating it so that the right people could see the right context in the right tool. This is not a workflow problem unique to me. Every PM I have spoken to about this nods in recognition. It is a structural failure of the tool ecosystem.</p>
+
+    <p>The industry's answer has been integration platforms. Zapier, Make, custom webhooks. These help with the plumbing, but they do not solve the core issue. The problem is not that Tool A cannot send data to Tool B. The problem is that no tool in the stack understands the PM's full context. Your competitive analysis lives in one place, your OKRs in another, your user research in a third. No single system has the complete picture. So you, the PM, become the integration layer. Your brain is the only system that holds all the context. And your brain does not scale.</p>
+
+    <p>I lived with this for years. Like most PMs, I developed workarounds. Personal wikis. Master spreadsheets. Running documents that tried to stitch together the fragments. They helped. But they were band-aids on a structural problem. The tools were never going to converge on their own. Each one is optimized for its own use case, not for the PM's workflow across use cases.</p>
+
+    <p>Something had to change. Not the tools themselves, but the layer that connects them.</p>
+
+    <h2>What If the Stack Was One System?</h2>
+
+    <p>That question is what led to PM-OS. Not a new project management tool. Not another dashboard. An AI operating system that sits on top of whatever tools you already use and provides a unified layer for the entire PM workflow.</p>
+
+    <p>The core idea is simple. Instead of switching between twelve tools and manually maintaining context across them, you work through a single interface that understands the full PM lifecycle. One system that can run competitive analysis, write strategy docs, define OKRs, prioritize features, scope sprints, prepare stakeholder updates, and review metrics. Not by replacing your existing tools, but by acting as an intelligent layer that reads from them, writes to them, and maintains context across all of them.</p>
+
+    <p>PM-OS has 27 skills organized across the complete product management lifecycle. Each skill handles a specific workflow that PMs do regularly. Together, they cover the full arc from discovery through delivery and measurement.</p>
+
+    <div class="visual-grid">
+      <div class="visual-grid-item">Discovery (3)</div>
+      <div class="visual-grid-item">Strategy (3)</div>
+      <div class="visual-grid-item">User Research (3)</div>
+      <div class="visual-grid-item">Define (3)</div>
+      <div class="visual-grid-item">Plan (3)</div>
+      <div class="visual-grid-item">Deliver (2)</div>
+      <div class="visual-grid-item">Communicate (3)</div>
+      <div class="visual-grid-item">Measure (2)</div>
+      <div class="visual-grid-item">Present (1)</div>
+      <div class="visual-grid-item">Cadence (1)</div>
+    </div>
+
+    <p>The skill count matters less than the coverage. Most PM tools solve one slice of the workflow well and ignore everything else. Jira is excellent at tracking work. It tells you nothing about whether you are tracking the right work. Notion is great for documentation. It cannot tell you whether your strategy aligns with your OKRs. PM-OS is designed to span the full workflow because the value of the system increases when every phase can reference every other phase.</p>
+
+    <p>Discovery skills handle competitive intelligence, opportunity assessment, and market research. Strategy skills generate and refine product strategy documents grounded in your actual competitive landscape and company context. User research skills create interview guides, synthesize feedback, and build personas. Define skills write PRDs, refine specs, and record decisions. Planning skills manage OKRs, prioritization, roadmaps, quarterly plans, and sprint scoping. Delivery and communication skills handle launch plans, stakeholder updates, meeting prep, and status reports. Measurement skills review metrics and analyze experiments. Present and cadence skills create slide decks and daily briefings.</p>
+
+    <p>Each skill is purpose-built for how PMs actually work. Not generic AI chat. Not "ask me anything." Structured workflows with opinionated defaults that reflect how good product management is actually practiced.</p>
+
+    <h2>The Knowledge System Is the Product</h2>
+
+    <p>The 27 skills are useful on their own. Run competitive intelligence on a competitor and you get a solid battlecard. Write a PRD and you get a well-structured spec. Each skill produces a standalone artifact that is better than what most PMs create manually, because the skill encodes best practices and forces completeness.</p>
+
+    <p>But the individual skills are not the product. The knowledge system is.</p>
+
+    <p>Every skill in PM-OS reads from and writes to a shared knowledge directory. When you run competitive intelligence on a competitor, the battlecard is saved to the knowledge base. When you later run the strategy skill, it reads those battlecards automatically. It does not ask you to paste in your competitive research. It already knows. When you write OKRs, the system reads your strategy. When you prioritize features, the system reads your OKRs. When you scope a sprint, the system reads your prioritized backlog.</p>
+
+    <div class="visual-flow">
+      <div class="visual-flow-step">Competitive Intel</div>
+      <span class="visual-flow-arrow">&rarr;</span>
+      <div class="visual-flow-step active">Strategy</div>
+      <span class="visual-flow-arrow">&rarr;</span>
+      <div class="visual-flow-step">OKRs</div>
+      <span class="visual-flow-arrow">&rarr;</span>
+      <div class="visual-flow-step">Prioritization</div>
+      <span class="visual-flow-arrow">&rarr;</span>
+      <div class="visual-flow-step active">Roadmap</div>
+      <span class="visual-flow-arrow">&rarr;</span>
+      <div class="visual-flow-step">Sprint Scope</div>
+    </div>
+
+    <p>This is the compounding effect. Each skill you run makes every subsequent skill smarter. Your competitive intel feeds your strategy. Your strategy feeds your OKRs. Your OKRs feed your prioritization framework. Your priorities feed your roadmap. Your roadmap feeds your sprint scope. The knowledge accumulates, and the system gets more useful over time. Not because the AI gets smarter, but because the context it operates with gets richer.</p>
+
+    <p>This is the fundamental difference between PM-OS and the wave of AI chatbots that every SaaS company has bolted onto their product in the last two years. Those chatbots are stateless. You ask a question, you get an answer, and the conversation evaporates. Next time you come back, the AI knows nothing about what you discussed yesterday. It has no memory of your strategy, your competitive landscape, your OKRs, or your team's velocity. Every interaction starts from zero.</p>
+
+    <p>PM-OS is stateful. It remembers. Not because it stores chat histories, but because every skill writes structured output to a knowledge base that every other skill can read. The knowledge directory is not a chat log. It is a structured representation of your product context: competitors, strategy, OKRs, priorities, decisions, metrics, user research, sprint history. Each file in the knowledge base has a specific schema and purpose. Each skill knows which files to read and which files to write.</p>
+
+    <p>That is the difference between a tool and an operating system. A tool does one thing when you ask. An operating system maintains state, connects processes, and makes the whole greater than the sum of the parts. The knowledge system is what makes PM-OS an operating system rather than a collection of 27 independent AI tricks.</p>
+
+    <p>I did not arrive at this architecture by design. I built the first few skills as standalone utilities. Competitive intel was a script that fetched a competitor's website and generated a battlecard. Strategy writing was a prompt that produced a strategy doc. They worked fine in isolation. But every time I ran the strategy skill, I found myself manually pasting in the competitive research I had done the day before. Every time I wrote OKRs, I was copying and pasting from the strategy doc. I was recreating the same information transfer problem that PM-OS was supposed to solve.</p>
+
+    <p>The knowledge directory was born out of that frustration. Once every skill could read and write to a shared file system, the whole thing clicked. The system stopped being a collection of tools and started being something more. It started feeling like an operating system.</p>
+
+    <h2>How It Works in Practice</h2>
+
+    <p>Theory is fine. Let me show you what this looks like in a real workflow.</p>
+
+    <p>It is late March. You are a PM planning Q3. In the traditional workflow, you would spend days gathering inputs: pulling up last quarter's metrics, reviewing competitive moves, rereading the company strategy, collecting feature requests, estimating capacity. Then you would synthesize all of that into a plan, probably in a slide deck, over several more days. Two weeks of work, minimum, before you have a draft that stakeholders can react to.</p>
+
+    <p>Here is the same workflow in PM-OS.</p>
+
+    <div class="visual-code">
+      <div class="visual-code-label">Terminal</div>
+      <pre>$ /competitive-intel Linear
+> Analyzing linear.app...
+> Battlecard saved to knowledge/competitors/linear.md
+
+$ /write-strategy
+> Reading competitors, OKRs, product context...
+> Strategy draft saved to knowledge/strategy.md
+
+$ /prioritize
+> Running RICE scoring against strategy...
+> Ranked priorities saved to knowledge/priorities/q3-2026.md</pre>
+    </div>
+
+    <p>Three commands. The competitive intel skill fetches Linear's website, analyzes their product positioning, pricing, recent launches, strengths, and weaknesses, then saves a structured battlecard. You do the same for your other key competitors. Takes about two minutes per competitor.</p>
+
+    <p>Then you run the strategy skill. It reads your existing company context (which you set up once during onboarding), your competitive battlecards (which you just generated), your previous quarter's OKRs and metrics (which live in the knowledge directory from last quarter's work), and your product vision. From all of that context, it drafts a comprehensive strategy document with vision, strategic pillars, positioning, and success metrics. Not a generic template. A strategy grounded in your actual competitive landscape and your actual product context.</p>
+
+    <p>Then you run prioritization. The system reads the strategy you just generated, reads your backlog of feature candidates, and scores each one using a RICE framework weighted against your strategic pillars. Features that align with your top strategic priorities score higher. Features that are high-effort and low-alignment drop to the bottom. The output is a ranked list with scores, rationale for each ranking, and a recommended cut line for what fits in Q3.</p>
+
+    <p>From there, you can run the quarterly planning skill, which reads everything you have generated so far and produces a complete quarterly plan with themes, OKRs, roadmap commitments, resource allocation, and risk assessment. Or you can run the roadmap builder to generate a now/next/later view. Or the sprint scoping skill to break Q3 into sprint-level chunks based on your team's historical velocity.</p>
+
+    <p>Each step takes minutes. The total workflow that used to take two weeks of fragmented work now takes an afternoon of focused effort. And the output is better, because every step has access to the full context rather than whatever subset you remembered to paste in.</p>
+
+    <p>The important thing to understand is that this is not AI replacing the PM's judgment. At every step, you review, edit, and refine the output. The strategy draft is a draft. You rewrite sections, adjust priorities, add context the system does not have. The prioritization scores are a starting point. You override rankings based on factors the system cannot quantify, like political dynamics or technical debt that needs addressing regardless of RICE scores. PM-OS handles the information gathering, synthesis, and initial structuring. You handle the judgment calls. That division of labor is the entire point.</p>
+
+    <p>I have been using PM-OS in my own workflow for months now. The most surprising change is not speed, though that is real. It is the quality of thinking. When you are not spending 40% of your time on information transfer, you have capacity for deeper analysis. You notice patterns you would have missed. You catch misalignments between your strategy and your roadmap that would have survived weeks of review. The system does not think for you. It clears the space for you to think better.</p>
+
+    <h2>Why I Open-Sourced It</h2>
+
+    <p>PM-OS is free and open source under the MIT license. Anyone can install it, modify it, and use it for any purpose. I made this decision deliberately, and the reasoning is straightforward.</p>
+
+    <p>Product management as a discipline is underserved by AI. Most PM tools that have added AI features have done so by bolting a chatbot onto their existing interface. "Ask AI" buttons that generate generic text. Copilot features that autocomplete your Jira tickets. These features are mildly useful and fundamentally unambitious. They treat AI as a text generation engine rather than as a system that can transform how product work gets done.</p>
+
+    <p>PM-OS takes a different approach. It does not add AI to existing workflows. It rethinks the workflow around AI-native primitives. The knowledge directory, the skill-based architecture, the compounding context system: these are not features you can bolt onto a traditional tool. They require starting from a different set of assumptions about how PMs should work.</p>
+
+    <p>Open-sourcing it means the ideas can spread regardless of whether anyone adopts PM-OS specifically. If another tool takes the knowledge directory concept and implements it better, that is a win. If a PM team forks PM-OS and customizes it for their specific domain, that is a win. The goal is not to build a product. The goal is to shift how the industry thinks about PM tooling.</p>
+
+    <p>There is also a practical reason. PM-OS is built as a plugin for Claude Code, which means it runs locally, on your machine, with your data. There is no server, no account, no subscription. Your knowledge base lives in your file system. Your competitive research, your strategy documents, your OKRs: all of it stays on your machine (or in your team's repo). For PMs working on sensitive products or in regulated industries, this matters. You do not need to send your product strategy to a third-party SaaS platform to get AI assistance with your workflow.</p>
+
+    <p>The plugin architecture also means PM-OS evolves with the ecosystem. As Claude gets better, every skill gets better automatically. As new capabilities become available (better web research, deeper code analysis, multimodal inputs), they can be incorporated into existing skills without rebuilding the system. The architecture is designed to compound, both in the knowledge it accumulates and in the capabilities it can leverage.</p>
+
+    <div class="visual-callout">
+      <p>The goal is not to replace product managers. It is to remove the busywork so PMs can focus on the decisions that actually matter.</p>
+    </div>
+
+    <p>I have talked to hundreds of PMs over the past year, at conferences, in Slack communities, through DMs. The frustration is universal. PMs feel like they spend too much time on logistics and not enough on strategy. They feel like their tools work against them rather than for them. They feel like AI should be helping more than it is, but the "AI features" in their existing tools feel like gimmicks rather than genuine workflow improvements.</p>
+
+    <p>PM-OS is my answer to that frustration. It is opinionated. It encodes my view of how product management should work, informed by years of doing it across enterprise software, healthcare, and AI products. Not everyone will agree with every default. That is fine. The code is open. Change what does not work for you.</p>
+
+    <p>If you are a PM and this resonates, try it. Install the plugin, run the setup wizard, and run one skill. Start with competitive intel or a PRD. See whether the output is useful. If it is, run another skill and watch how the knowledge system starts connecting the dots. The compounding effect is not something I can describe in a blog post. You have to experience it.</p>
+
+    <p>The future of PM tooling is not better features inside existing tools. It is better systems that connect the entire workflow. That is what PM-OS is. That is what I think every PM tool will eventually become. The question is whether that future arrives through incremental chatbot additions to existing SaaS products, or through a fundamental rethinking of how product work gets done.</p>
+
+    <p>I am betting on the rethink.</p>
+
+  </div>
+
+  <footer class="article-footer">
+    <div class="article-author">
+      <div class="article-author-name">Written by Shaan Agara</div>
+      <div class="article-author-bio">Director of Product at PointClickCare. Stanford AI. Building open-source AI tools for product leaders and decision-makers.</div>
+    </div>
+    <div class="article-back">
+      <a href="./">&larr; Back to all posts</a>
+    </div>
+    <div class="article-nav">
+      <a href="shipping-side-projects.html">&larr; Prev: Shipping Side Projects</a>
+      <a href="agent-cost-problem.html">Next: The Agent Cost Problem &rarr;</a>
+    </div>
+  </footer>
+</article>
+
+<!-- FOOTER -->
+<footer class="footer bg-cream">
+  <div class="container">
+    <div class="section-label">Connect</div>
+    <div class="footer-links">
+      <a href="https://www.linkedin.com/in/shaan-agara/" class="footer-link" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        LinkedIn
+      </a>
+      <a href="https://github.com/shaan-ad" class="footer-link" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" fill="currentColor"/></svg>
+        GitHub
+      </a>
+    </div>
+    <p class="footer-quote">"You can't connect the dots looking forward; you can only connect them looking backwards. So you have to trust that the dots will somehow connect in your future."</p>
+    <p class="footer-quote-attr">Steve Jobs</p>
+    <p class="footer-copy">&copy; 2026 Shaan Agara</p>
+  </div>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
